@@ -53,13 +53,13 @@ public class MainFrame extends JFrame {
                 String fName = fNameText.getText();
                 String lName = lNameText.getText();
                 String balance = balanceText.getText();
-                int bal = Integer.parseInt(balance);
+                double bal = Double.parseDouble(balance);
                 bankAccount = new BankAccount(fName, lName, bal);
 
                 updateTable();
+                //Hide components so user can't change profile
                 depositB.setVisible(!depositB.isVisible());
                 withdrawB.setVisible(!withdrawB.isVisible());
-
                 fNameLabel.setVisible(!fNameLabel.isVisible());
                 lNameLabel.setVisible(!lNameLabel.isVisible());
                 balanceLabel.setVisible(!balanceLabel.isVisible());
@@ -92,7 +92,7 @@ public class MainFrame extends JFrame {
                 deposit = Double.parseDouble(s);
                 bankAccount.deposit(deposit);
                 updateTable();
-                depositText.setText("");
+                depositText.setText(""); // clears text
                 depositText.setVisible(!depositText.isVisible());
                 updateDepositB.setVisible(!updateDepositB.isVisible());
             }
@@ -105,7 +105,7 @@ public class MainFrame extends JFrame {
                 withdraw = Double.parseDouble(s);
                 bankAccount.withdrawal(withdraw);
                 updateTable();
-                withdrawText.setText("");
+                withdrawText.setText(""); // clears text
                 withdrawText.setVisible(!withdrawText.isVisible());
                 updateWithdrawB.setVisible(!updateWithdrawB.isVisible());
             }
@@ -113,8 +113,9 @@ public class MainFrame extends JFrame {
     }
     private void updateTable() {
         String[] columnNames = {"Account ID", "Available Balance", "Name"};
+        String formatBal = String.format("$%.2f", bankAccount.getBalance()); // format balance output
         Object[][] data = {
-                {bankAccount.getAccountID(), bankAccount.getBalance(), bankAccount.getFirstName() + " " + bankAccount.getLastName()}
+                {bankAccount.getAccountID(), formatBal, bankAccount.getFirstName() + " " + bankAccount.getLastName()}
         };
 
         DefaultTableModel model = (DefaultTableModel) table1.getModel();

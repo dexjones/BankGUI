@@ -2,7 +2,7 @@ public class BankAccount {
     protected String firstName;
     protected String lastName;
     protected int accountID;
-    protected int idCounter;
+    protected int idCounter = 10000;
     protected double balance;
 
     public BankAccount() { // default constructor
