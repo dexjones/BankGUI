@@ -2,6 +2,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.text.DecimalFormat;
 
 public class MainFrame extends JFrame {
 
@@ -25,7 +26,11 @@ public class MainFrame extends JFrame {
     private JLabel menuLabel;
 
     private BankAccount bankAccount;
-    private double deposit, withdraw;
+    private double deposit, withdraw, balance;
+    private String s, fName, lName;
+
+    DecimalFormat decFormat = new DecimalFormat("#,###,##0.00");
+
     public MainFrame() {
         setContentPane(mainPanel);
         setTitle("Bank Balance Application");
@@ -45,16 +50,18 @@ public class MainFrame extends JFrame {
                 lNameText.setVisible(!lNameText.isVisible());
                 balanceText.setVisible(!balanceText.isVisible());
                 enterButton.setVisible(!enterButton.isVisible());
+                createAccountButton.setVisible(!createAccountButton.isVisible());
             }
         });
         enterButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                String fName = fNameText.getText();
-                String lName = lNameText.getText();
-                String balance = balanceText.getText();
-                double bal = Double.parseDouble(balance);
-                bankAccount = new BankAccount(fName, lName, bal);
+                fName = fNameText.getText();
+                lName = lNameText.getText();
+                s = balanceText.getText();
+                balance = Double.parseDouble(s);
+
+                bankAccount = new BankAccount(fName, lName, balance);
 
                 updateTable();
                 //Hide components so user can't change profile
@@ -67,7 +74,6 @@ public class MainFrame extends JFrame {
                 lNameText.setVisible(!lNameText.isVisible());
                 balanceText.setVisible(!balanceText.isVisible());
                 enterButton.setVisible(!enterButton.isVisible());
-                createAccountButton.setVisible(!createAccountButton.isVisible());
                 menuLabel.setText("Account");
             }
         });
@@ -113,7 +119,7 @@ public class MainFrame extends JFrame {
     }
     private void updateTable() {
         String[] columnNames = {"Account ID", "Available Balance", "Name"};
-        String formatBal = String.format("$%.2f", bankAccount.getBalance()); // format balance output
+        String formatBal = "$" + decFormat.format(bankAccount.getBalance()); // format balance output
         Object[][] data = {
                 {bankAccount.getAccountID(), formatBal, bankAccount.getFirstName() + " " + bankAccount.getLastName()}
         };

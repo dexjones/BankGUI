@@ -48,7 +48,7 @@ public class BankAccount {
     }
 
     public String accountSummary() { // prints all account information formatted
-        return String.format("First Name: '%s'\nLast Name: '%s'\nAccount ID: %d\nBalance: %.2f", firstName, lastName, accountID, balance);
+        return String.format("First Name: '%s'\nLast Name: '%s'\nAccount ID: %d\nBalance: %,.2f", firstName, lastName, accountID, balance);
     }
 
 }
